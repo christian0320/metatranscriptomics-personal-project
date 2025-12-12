@@ -3,7 +3,7 @@
 
 ## Pipeline Description
 
-### Step 1 – Data and Reference Download
+### Step 1 – Data and Reference Download  
 **Script:** `01_download_data.sh`
 
 - Downloads the GEO reference genome for dataset **GSE231841**
@@ -11,102 +11,119 @@
 - Retrieves bacterial coding sequences (CDS) from **AT-SPHERE**
 - Decompresses and concatenates all bacterial CDS into a single reference file
 
-**Output:**
-- Raw FASTQ files  
-- Bacterial CDS reference (`allCDS_bacteria.ffn`)
+**Output:**  
+Raw FASTQ files and bacterial CDS reference (`allCDS_bacteria.ffn`)
 
 ---
 
-### Step 2 – Read Trimming and Quality Control
+### Step 2 – Read Trimming and Quality Control  
 **Script:** `02_trim_reads_fastp.sh`
 
 - Adapter trimming and quality filtering using **fastp**
 - Removal of low-quality bases and short reads
-- Generation of QC reports
+- Generation of quality control reports
 
-**Output:**
-- Quality-filtered FASTQ files
+**Output:**  
+Quality-filtered FASTQ files
 
 ---
 
-### Step 3 – Host Read Removal
+### Step 3 – Host Read Removal  
 **Script:** `03_filter_host_bowtie2.sh`
 
 - Alignment of reads to the plant host genome using **Bowtie2**
 - Removal of host-derived reads
-- Retention of microbial reads only
+- Retention of non-host (microbial) reads
 
-**Output:**
-- Host-filtered FASTQ files
+**Output:**  
+Host-filtered FASTQ files
 
 ---
 
-### Step 4 – Bacterial Gene Expression Quantification
+### Step 4 – Bacterial Gene Expression Quantification  
 **Script:** `04_salmon_bacteria.sh`
 
 - Construction of a Salmon index using bacterial CDS
 - Transcript-level quantification of gene expression
 - TPM-based abundance estimates
 
-**Output:**
-- Salmon quantification directories per sample
+**Output:**  
+Salmon quantification directories per sample
 
 ---
 
-### Step 4.5 – Gene-to-Species Mapping
+### Step 4.5 – Gene-to-Species Mapping  
 **Script:** `04.5_build_gene_to_species.py`
 
 - Mapping of bacterial genes to their corresponding species
 - Generation of a gene-to-species lookup table
 
-**Output:**
-- Gene-to-species mapping file
+**Output:**  
+Gene-to-species mapping file
 
 ---
 
-### Step 5 – TPM Matrix Construction
+### Step 5 – TPM Matrix Construction  
 **Script:** `05_build_tpm_matrix.py`
 
 - Extraction of TPM values from Salmon outputs
 - Merging of all samples into a unified TPM matrix
 - Preparation of expression data for downstream analysis
 
-**Output:**
-- TPM expression matrix (genes × samples)
+**Output:**  
+TPM expression matrix (genes × samples)
 
 ---
 
-### Step 6 – Relative Abundance Calculation
+### Step 6 – Relative Abundance Calculation  
 **Script:** `06_relative_abundance_bacteria.py`
 
 - Aggregation of gene-level TPM values by species
 - Normalization to relative abundance
 - Separation of samples by experimental condition (root vs matrix)
 
-**Output:**
-- Species-level relative abundance table
+**Output:**  
+Species-level relative abundance table
 
 ---
 
-### Step 7 – Venn Diagram (Figure 2A)
-**Script:** `07_fig2A_venn.R`
+## Figures and Interpretation
 
-- Identification of shared and unique bacterial species between conditions
-- Generation of a Venn diagram reproducing **Figure 2A**
+### Figure 2A – Venn Diagram of Bacterial Species
 
-**Output:**
-- Venn diagram figure
+This figure illustrates the overlap of bacterial species detected across experimental conditions (root vs matrix). Species presence/absence was determined from the species-level relative abundance table.
+
+![Figure 2A – Venn Diagram](figures/Fig2A_Venn.png)
 
 ---
 
-### Step 8 – Relative Abundance Visualization (Figure 2C)
-**Script:** `08_fig2C_relative_abundance.R`
+### Figure 2C – Relative Abundance of Bacterial Species
 
-- Visualization of species-level relative abundance
-- Reproduction of **Figure 2C** from the reference study
+This figure displays the relative abundance of bacterial species across samples, separated by experimental condition. Abundance values were calculated from TPM-normalized gene expression aggregated at the species level.
 
-**Output:**
-- Relative abundance plots
+![Figure 2C – Relative Abundance](figures/Fig2C_relative_abundance.png)
+
+---
+
+## Low Mapping Rate Explanation
+
+The overall mapping rate observed in this analysis is lower than that reported in the reference study. Consequently, the final figures display a reduced number of bacterial genera and species compared to the original publication.
+
+Several factors may contribute to this discrepancy:
+
+1. **Reference Genome Differences**  
+   The bacterial CDS reference used in this pipeline was constructed from publicly available genomes retrieved from AT-SPHERE. Differences between this reference and the curated genome set used in the original study may reduce mapping efficiency.
+
+2. **Strain-Level Genetic Divergence**  
+   RNA-seq reads originating from strains that are genetically divergent from the available reference genomes may fail to align or be assigned during quantification.
+
+3. **Stringent Host-Filtering Steps**  
+   Aggressive removal of host-derived reads during the Bowtie2 filtering step may inadvertently discard microbial reads with partial similarity to the host genome.
+
+4. **Quantification Parameter Differences**  
+   Variations in Salmon indexing strategies and alignment parameters relative to the original pipeline may further impact mapping rates.
+
+Despite the low mapping rate, the detected bacterial taxa and relative abundance patterns remain biologically interpretable and demonstrate the logical consistency of the pipeline. These results highlight the sensitivity of metatranscriptomic analyses to reference completeness and parameter selection.
 
 ---
 
@@ -122,9 +139,9 @@
 - SRA Toolkit
 
 ### R Packages
-- tidyverse
-- VennDiagram
-- ggplot2
+- tidyverse  
+- VennDiagram  
+- ggplot2  
 
 ---
 
