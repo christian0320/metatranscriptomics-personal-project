@@ -1,5 +1,3 @@
----
-
 ## Pipeline Description
 
 ### Step 1 – Data and Reference Download  
