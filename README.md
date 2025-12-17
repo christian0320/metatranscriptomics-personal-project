@@ -143,17 +143,17 @@ Despite the low mapping rate, the detected bacterial taxa and relative abundance
 
 ### Software
 - Bash
-- Python ≥ 3.8
-- R ≥ 4.2
-- fastp
-- Bowtie2
-- Salmon
-- SRA Toolkit
+- Python v3.12.4
+- R v4.4.2
+- fastp v0.23.4
+- Bowtie2 v2.5.4
+- Salmon v1.10.3
+- SRA Toolkit v3.2.0
 
 ### R Packages
-- tidyverse  
-- VennDiagram  
-- ggplot2  
+- tidyverse v2.0.0
+- VennDiagram v1.7.3
+- ggplot2 v4.0.1
 
 ---
 
