@@ -1,4 +1,3 @@
-
 ---
 
 ## Pipeline Description
@@ -124,6 +123,19 @@ Several factors may contribute to this discrepancy:
    Variations in Salmon indexing strategies and alignment parameters relative to the original pipeline may further impact mapping rates.
 
 Despite the low mapping rate, the detected bacterial taxa and relative abundance patterns remain biologically interpretable and demonstrate the logical consistency of the pipeline. These results highlight the sensitivity of metatranscriptomic analyses to reference completeness and parameter selection.
+
+---
+
+## Notes to Self
+
+1. **CDS Download Reliability and Reference Completeness**  
+   The bacterial coding sequences (CDS) used in this pipeline were downloaded from the AT-SPHERE database. This resource appears to be partially outdated and may suffer from limited accessibility or incomplete genome coverage. Download interruptions, missing files, or unavailable genomes could directly affect reference completeness and downstream mapping performance. In future iterations, references should be validated for completeness or complemented with alternative databases.
+
+2. **Impact of Outdated or Incomplete Genomic Resources**  
+   Because some genomes may be missing or poorly annotated in the AT-SPHERE database, reads originating from absent or divergent bacterial strains may fail to map. This likely contributes to the observed low mapping rate and reduced taxonomic diversity in the final results.
+
+3. **Sensitivity of Mapping Rate to Reference Quality**  
+   The low overall mapping rate observed in this analysis is likely driven by limitations in the available bacterial reference rather than issues with the pipeline logic itself. Improving reference genome quality, incorporating additional strain-level genomes, or using genome-resolved metagenomic assemblies may substantially increase mapping efficiency in future analyses.
 
 ---
 
